@@ -17,7 +17,7 @@ var loadMulter = (fileSize, filePath) => {
     return multer({
         storage: multerS3({
             s3: s3,
-            bucket: `swadharmaa/${filePath}`,
+            bucket: `vunity/${filePath}`,
             contentType: multerS3.AUTO_CONTENT_TYPE,
             acl: 'public-read',
             key: function (req, file, cb) {

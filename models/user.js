@@ -35,6 +35,14 @@ var userSchema = new Schema({
     role: {
         type: String,
         default: 'USER',
+    },
+    soothram: {
+        type: String,
+        default: null
+    },
+    vaidhika: {
+        type: Boolean,
+        required: true
     }
 }, { timestamps: true });
 
