@@ -7,7 +7,7 @@ module.exports = app => {
      * Admin only
      */
     app.get('/user/list', AdminOnly, userCtl.list);
-
+    app.put('/user/review', AdminOnly, userCtl.userReview);
     /**
      * All users
      */

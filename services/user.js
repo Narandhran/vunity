@@ -5,6 +5,7 @@ const { onlyNumber, autoIdGen } = require('../utils/autogen');
 const { s3, smsGateWay } = require('../utils/constant');
 const { sign } = require('./custom/jwt.service');
 const moment = require('moment');
+const { request } = require('express');
 
 const axios = require('axios').default;
 
@@ -18,12 +19,13 @@ module.exports = {
             });
     },
     login: async (request, cb) => {
-        let { mobile, otp } = request.body;
+        let { mobile, otp, fcmToken } = request.body;
         let isUser = await User.findOne({ 'mobile': mobile });
         if (isUser) {
             if (isUser.verify.expire < moment(isUser.verify.expire).add(15, 'm').toDate()) {
                 if (isUser.verify.otp == otp) {
                     let token = {};
+                    isUser.fcm = fcmToken;
                     try {
                         token = sign({
                             _id: isUser._id,
@@ -32,6 +34,7 @@ module.exports = {
                             fullname: isUser.fullname
                         });
                         cb(null, { role: isUser.role, token, rpath: s3.basePath });
+                        await isUser.save();
                     } catch (e) { cb(e, {}); };
                 } else cb(new Error('OTP invalid, try again!'), {});
             } else cb(new Error('OTP expired'));
@@ -41,16 +44,20 @@ module.exports = {
         let { mobile } = request.params;
         var isUser = await User.findOne({ 'mobile': mobile });
         if (isUser) {
-            let otp = autoIdGen(4, onlyNumber);
-            isUser.verify.otp = otp;
-            isUser.verify.expire = new Date();
-            await isUser.save();
-            async function makeGetRequest() {
-                let res = await axios.get(smsGateWay.uri(mobile, `Hi ${isUser.fullname}, your OTP is ${otp} will expire in another 15 mins. Kindly use this for login, don't share it with anyone. Have a great day, Team SWADHARMAA.`));
-                let data = res.data;
-            }
-            await makeGetRequest();
-            cb(null, 'OTP sent successfully');
+            if (isUser.status == 'Aproved') {
+                let otp = autoIdGen(4, onlyNumber);
+                isUser.verify.otp = otp;
+                isUser.verify.expire = new Date();
+                await isUser.save();
+                async function makeGetRequest() {
+                    let res = await axios.get(smsGateWay.uri(mobile, `Hi ${isUser.fullname}, your OTP is ${otp} will expire in another 15 mins. Kindly use this for login, don't share it with anyone. Have a great day, Team SWADHARMAA.`));
+                    let data = res.data;
+                }
+                await makeGetRequest();
+                cb(null, 'OTP sent successfully');
+            } else if (isUser.status == 'Pending') {
+                cb(null, 'Your account is not yet verified, please try after sometimes or contact administratior!');
+            } else cb(new Error('Your account is blocked, contact administratior!', {}));
         } else cb(new Error('User not exist, please register!'), {});
     },
     updateDp: async (request, cb) => {
@@ -87,6 +94,14 @@ module.exports = {
     list: async (request, cb) => {
         await User
             .find({}, '_id fname lname dp email gender mobile')
+            .exec((err, result) => {
+                cb(err, result);
+            });
+    },
+    userReview: async (request, cb) => {
+        let { id, status = 'Pending' } = request.body;
+        await User.
+            findByIdAndUpdate(id, { 'status': status })
             .exec((err, result) => {
                 cb(err, result);
             });

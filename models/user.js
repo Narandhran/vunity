@@ -28,9 +28,10 @@ var userSchema = new Schema({
         otp: { type: Number, require: true },
         expire: { type: Date }
     },
-    active: {
-        type: Boolean,
-        default: true
+    status: {
+        type: String,
+        enum: ['Pending','Aproved','Blocked'],
+        default: 'Pending'
     },
     role: {
         type: String,
