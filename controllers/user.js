@@ -1,5 +1,5 @@
 const { register, login, requestOtp, updateDp, getProfileInfo, updateProfile,
-    list, userReview } = require('../services/user');
+    list } = require('../services/user');
 const { successHandler, errorHandler } = require('../utils/handler');
 
 module.exports = {
