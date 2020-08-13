@@ -30,7 +30,7 @@ var userSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['Pending','Aproved','Blocked'],
+        enum: ['Pending','Approved','Blocked'],
         default: 'Pending'
     },
     role: {

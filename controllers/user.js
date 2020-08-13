@@ -47,14 +47,5 @@ module.exports = {
             if (err) errorHandler(req, res, err);
             else successHandler(req, res, 'Updated', result);
         });
-    },
-    /**
-     * Admin Only
-     */
-    userReview: (req, res) => {
-        userReview(req, (err, result) => {
-            if (err) errorHandler(req, res, err);
-            else successHandler(req, res, 'Success', result);
-        });
     }
 };

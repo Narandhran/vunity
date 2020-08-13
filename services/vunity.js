@@ -8,7 +8,7 @@ module.exports = {
     },
     update: async (request, cb) => {
         Vunity
-            .findByIdAndUpdate(request.params.id, request.body)
+            .findByIdAndUpdate(request.params.id, request.body, { new: true })
             .exec((err, result) => {
                 cb(err, result);
             });
@@ -16,6 +16,15 @@ module.exports = {
     findByUserId: async (request, cb) => {
         Vunity
             .findOne({ user_id: request.params.id })
+            .populate('user_id')
+            .exec((err, result) => {
+                cb(err, result);
+            });
+    },
+    list: async (request, cb) => {
+        Vunity
+            .find({})
+            .populate('user_id')
             .exec((err, result) => {
                 cb(err, result);
             });

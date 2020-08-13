@@ -25,7 +25,7 @@ module.exports = {
             if (isUser.verify.expire < moment(isUser.verify.expire).add(15, 'm').toDate()) {
                 if (isUser.verify.otp == otp) {
                     let token = {};
-                    isUser.fcm = fcmToken;
+                    isUser.fcmToken = fcmToken;
                     try {
                         token = sign({
                             _id: isUser._id,
@@ -94,14 +94,6 @@ module.exports = {
     list: async (request, cb) => {
         await User
             .find({}, '_id fname lname dp email gender mobile')
-            .exec((err, result) => {
-                cb(err, result);
-            });
-    },
-    userReview: async (request, cb) => {
-        let { id, status = 'Pending' } = request.body;
-        await User.
-            findByIdAndUpdate(id, { 'status': status })
             .exec((err, result) => {
                 cb(err, result);
             });
