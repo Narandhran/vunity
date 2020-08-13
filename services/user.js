@@ -44,7 +44,7 @@ module.exports = {
         let { mobile } = request.params;
         var isUser = await User.findOne({ 'mobile': mobile });
         if (isUser) {
-            if (isUser.status == 'Aproved') {
+            if (isUser.status == 'Approved') {
                 let otp = autoIdGen(4, onlyNumber);
                 isUser.verify.otp = otp;
                 isUser.verify.expire = new Date();
