@@ -1,5 +1,6 @@
-const { findByUserId, create, update, updatePhoto, list } = require('../services/vunity');
+const { findByUserId, create, update, updatePhoto, list, customFilter, customSearch } = require('../services/vunity');
 const { successHandler, errorHandler } = require('../utils/handler');
+const { request } = require('express');
 
 module.exports = {
     create: (req, res) => {
@@ -30,6 +31,18 @@ module.exports = {
         list(req, (err, result) => {
             if (err) errorHandler(req, res, err);
             else successHandler(req, res, 'Updated successfully', {});
+        });
+    },
+    customFilter: (req, res) => {
+        customFilter(req, (err, result) => {
+            if (err) errorHandler(req, res, err);
+            else successHandler(req, res, 'Success', result);
+        });
+    },
+    customSearch: (req, res) => {
+        customSearch(req, (err, result) => {
+            if (err) errorHandler(req, res, err);
+            else successHandler(req, res, 'Success', result);
         });
     },
 };
