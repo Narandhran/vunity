@@ -6,4 +6,5 @@ module.exports = app => {
     app.put('/vunity/update/:id', AllUsers, vunityCtl.update);
     app.get('/vunity/get_by_user/:id', AllUsers, vunityCtl.findByUserId);
     app.put('/vunity/update_photo', AllUsers, vunityCtl.updatePhoto);
+    app.get('/vunity/list', AllUsers, vunityCtl.list);
 };
