@@ -28,5 +28,5 @@ module.exports = {
             .exec((err, result) => {
                 cb(err, result);
             });
-    }
+    },
 };

@@ -5,7 +5,7 @@ module.exports = {
     create: (req, res) => {
         create(req, (err, result) => {
             if (err) errorHandler(req, res, err);
-            else successHandler(req, res, 'Success', result);
+            else successHandler(req, res, 'Success', {});
         });
     },
     findByUserId: (req, res) => {
@@ -17,7 +17,7 @@ module.exports = {
     update: (req, res) => {
         update(req, (err, result) => {
             if (err) errorHandler(req, res, err);
-            else successHandler(req, res, 'Updated successfully', result);
+            else successHandler(req, res, 'Updated successfully', {});
         });
     }
 };
