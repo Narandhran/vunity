@@ -29,4 +29,20 @@ module.exports = {
                 cb(err, result);
             });
     },
+    updatePhoto: async (request, cb) => {
+        let upload = await loadMulter(5, 'dp').single('dp');
+        await upload(request, null, (err) => {
+            if (err)
+                cb(err);
+            else {
+                Vunity
+                    .findByIdAndUpdate(request.verifiedToken._id, {
+                        photo: request.file.key
+                    }, { new: true })
+                    .exec((err, result) => {
+                        cb(err, result);
+                    });
+            }
+        });
+    },
 };

@@ -1,4 +1,6 @@
 const { model, Schema } = require('mongoose');
+const { loadMulter } = require('../services/custom/multers3.service');
+
 var vunitySchema = new Schema({
     user_id: {
         type: Schema.Types.ObjectId,

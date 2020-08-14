@@ -1,4 +1,4 @@
-const { findByUserId, create, update } = require('../services/vunity');
+const { findByUserId, create, update, updatePhoto } = require('../services/vunity');
 const { successHandler, errorHandler } = require('../utils/handler');
 
 module.exports = {
@@ -19,6 +19,12 @@ module.exports = {
             if (err) errorHandler(req, res, err);
             else successHandler(req, res, 'Updated successfully', {});
         });
-    }
+    },
+    updatePhoto: (req, res) => {
+        updatePhoto(req, (err, result) => {
+            if (err) errorHandler(req, res, err);
+            else successHandler(req, res, 'Updated successfully', {});
+        });
+    },
 };
 
