@@ -2,7 +2,7 @@ const { model, Schema } = require('mongoose');
 var vunitySchema = new Schema({
     user_id: {
         type: Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'user',
         required: true
     },
     isMobileVisible: {
