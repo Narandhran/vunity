@@ -36,32 +36,32 @@ var vunitySchema = new Schema({
         default: null
     },
     shakha: {
-        type: String,
-        default: null
+        type: [String],
+        default: []
     },
     vedha_adhyayanam: {
-        type: String,
-        default: null
+        type: [String],
+        default: []
     },
     shadanga_adhyayanam: {
-        type: String,
-        default: null
+        type: Boolean,
+        default: false
     },
     shastra_adhyayanam: {
-        type: String,
-        default: null
+        type: [String],
+        default: []
     },
     prayogam: {
-        type: String,
-        default: null
+        type: [String],
+        default: []
     },
     marital_status: {
         type: String,
         default: null
     },
     mother_tongue: {
-        type: String,
-        default: null
+        type: [String],
+        default: []
     }
 }, { timestamps: true });
 
