@@ -30,7 +30,7 @@ module.exports = {
     list: (req, res) => {
         list(req, (err, result) => {
             if (err) errorHandler(req, res, err);
-            else successHandler(req, res, 'Updated successfully', {});
+            else successHandler(req, res, 'Success', result);
         });
     },
     customFilter: (req, res) => {
