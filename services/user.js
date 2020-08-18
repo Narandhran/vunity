@@ -45,6 +45,7 @@ module.exports = {
         var isUser = await User.findOne({ 'mobile': mobile });
         if (isUser) {
             if (isUser.status == 'Approved') {
+                cb(null, 'OTP sent successfully');
                 let otp = autoIdGen(4, onlyNumber);
                 isUser.verify.otp = otp;
                 isUser.verify.expire = new Date();
@@ -54,7 +55,6 @@ module.exports = {
                     let data = res.data;
                 }
                 await makeGetRequest();
-                cb(null, 'OTP sent successfully');
             } else if (isUser.status == 'Pending') {
                 cb(null, 'Your account is not yet verified, please try after sometimes or contact administratior!');
             } else cb(new Error('Your account is blocked, contact administratior!', {}));

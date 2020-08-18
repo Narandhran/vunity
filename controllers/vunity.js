@@ -24,7 +24,7 @@ module.exports = {
     updatePhoto: (req, res) => {
         updatePhoto(req, (err, result) => {
             if (err) errorHandler(req, res, err);
-            else successHandler(req, res, 'Updated successfully', {});
+            else successHandler(req, res, 'Updated successfully', result);
         });
     },
     list: (req, res) => {
