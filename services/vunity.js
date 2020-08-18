@@ -1,4 +1,5 @@
 const { Vunity } = require('../models/vunity');
+const { loadMulter } = require('../services/custom/multers3.service');
 const { request } = require('express');
 
 module.exports = {
