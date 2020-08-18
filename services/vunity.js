@@ -42,7 +42,7 @@ module.exports = {
                         'photo': request.file.key
                     }, { new: true })
                     .exec((err, result) => {
-                        cb(err, result);
+                        cb(err, request.file.key);
                     });
             }
         });
