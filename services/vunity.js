@@ -38,7 +38,7 @@ module.exports = {
                 cb(err);
             else {
                 await Vunity
-                    .findByIdAndUpdate(request.verifiedToken._id, {
+                    .findOneAndUpdate({ 'user_id': request.verifiedToken._id }, {
                         'photo': request.file.key
                     }, { new: true })
                     .exec((err, result) => {
