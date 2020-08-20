@@ -62,8 +62,8 @@ var vunitySchema = new Schema({
         default: null
     },
     mother_tongue: {
-        type: [String],
-        default: []
+        type: String,
+        default: null
     }
 }, { timestamps: true });
 
