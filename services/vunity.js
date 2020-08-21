@@ -50,7 +50,7 @@ module.exports = {
     customFilter: async (request, cb) => {
         let filterQuery = {};
         let { vedham = null, samprdhayam = null, shakha = [], vedha_adhyayanam = [], shadanga_adhyayanam = null,
-            shastra_adhyayanam = [], prayogam = [], marital_status = null, mother_tongue = null } = request.body;
+            shastra_adhyayanam = [], prayogam = [], marital_status = null, mother_tongue = null, city = null } = request.body;
         if (vedham) filterQuery.vedham = vedham;
         if (samprdhayam) filterQuery.samprdhayam = samprdhayam;
         if (shakha.length > 0) filterQuery.shakha = { '$in': shakha };
@@ -60,6 +60,7 @@ module.exports = {
         if (prayogam.length > 0) filterQuery.prayogam = { '$in': prayogam };
         if (marital_status) filterQuery.marital_status = marital_status;
         if (mother_tongue) filterQuery.mother_tongue = mother_tongue;
+        if (city) filterQuery.city = city;
         // console.log('Filter: ' + JSON.stringify(filterQuery));
         await Vunity
             .find(filterQuery)
