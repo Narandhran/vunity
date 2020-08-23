@@ -55,7 +55,7 @@ module.exports = {
         if (samprdhayam) filterQuery.samprdhayam = samprdhayam;
         if (shakha.length > 0) filterQuery.shakha = { '$in': shakha };
         if (vedha_adhyayanam.length > 0) filterQuery.vedha_adhyayanam = { '$in': vedha_adhyayanam };
-        if (shadanga_adhyayanam != null) filterQuery.shadanga_adhyayanam = shadanga_adhyayanam;
+        if (shadanga_adhyayanam) filterQuery.shadanga_adhyayanam = shadanga_adhyayanam;
         if (shastra_adhyayanam.length > 0) filterQuery.shastra_adhyayanam = { '$in': shastra_adhyayanam };
         if (prayogam.length > 0) filterQuery.prayogam = { '$in': prayogam };
         if (marital_status) filterQuery.marital_status = marital_status;
