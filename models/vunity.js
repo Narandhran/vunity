@@ -46,8 +46,8 @@ var vunitySchema = new Schema({
         default: []
     },
     shadanga_adhyayanam: {
-        type: Boolean,
-        default: false
+        type: String,
+        default: null
     },
     shastra_adhyayanam: {
         type: [String],
