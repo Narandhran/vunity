@@ -53,11 +53,11 @@ module.exports = {
             shastra_adhyayanam = [], prayogam = [], marital_status = null, mother_tongue = null, city = null } = request.body;
         if (vedham) filterQuery.vedham = vedham;
         if (samprdhayam) filterQuery.samprdhayam = samprdhayam;
-        if (shakha.length > 0) filterQuery.shakha = { '$in': shakha };
-        if (vedha_adhyayanam.length > 0) filterQuery.vedha_adhyayanam = { '$in': vedha_adhyayanam };
+        if (shakha.length > 0) filterQuery.shakha = { '$all': shakha };
+        if (vedha_adhyayanam.length > 0) filterQuery.vedha_adhyayanam = { '$all': vedha_adhyayanam };
         if (shadanga_adhyayanam) filterQuery.shadanga_adhyayanam = shadanga_adhyayanam;
-        if (shastra_adhyayanam.length > 0) filterQuery.shastra_adhyayanam = { '$in': shastra_adhyayanam };
-        if (prayogam.length > 0) filterQuery.prayogam = { '$in': prayogam };
+        if (shastra_adhyayanam.length > 0) filterQuery.shastra_adhyayanam = { '$all': shastra_adhyayanam };
+        if (prayogam.length > 0) filterQuery.prayogam = { '$all': prayogam };
         if (marital_status) filterQuery.marital_status = marital_status;
         if (mother_tongue) filterQuery.mother_tongue = mother_tongue;
         if (city) filterQuery.city = city;
