@@ -9,4 +9,5 @@ module.exports = app => {
     app.get('/vunity/list', AllUsers, vunityCtl.list);
     app.post('/vunity/filter', AllUsers, vunityCtl.customFilter);
     app.get('/vunity/search/:search', AllUsers, vunityCtl.customSearch);
+    app.post('/vunity/mobile_visible_update', AllUsers, vunityCtl.mobileVisibilityUpdate);
 };

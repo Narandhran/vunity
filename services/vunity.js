@@ -25,7 +25,7 @@ module.exports = {
     },
     list: async (request, cb) => {
         Vunity
-            .find({})
+            .find({ 'user_id': { '$ne': request.verifiedToken._id } })
             .populate('user_id')
             .exec((err, result) => {
                 cb(err, result);
@@ -48,7 +48,7 @@ module.exports = {
         });
     },
     customFilter: async (request, cb) => {
-        let filterQuery = {};
+        let filterQuery = { 'user_id': { '$ne': request.verifiedToken._id } };
         let { vedham = null, samprdhayam = null, shakha = [], vedha_adhyayanam = [], shadanga_adhyayanam = null,
             shastra_adhyayanam = [], prayogam = [], marital_status = null, mother_tongue = null, city = null } = request.body;
         if (vedham) filterQuery.vedham = vedham;
@@ -87,6 +87,13 @@ module.exports = {
                 ]
             })
             .populate('user_id')
+            .exec((err, result) => {
+                cb(err, result);
+            });
+    },
+    mobileVisibilityUpdate: async (request, cb) => {
+        await Vunity
+            .findOneAndUpdate({ 'user_id': request.verifiedToken._id }, request.body)
             .exec((err, result) => {
                 cb(err, result);
             });

@@ -9,7 +9,7 @@ var vunitySchema = new Schema({
     },
     isMobileVisible: {
         type: Boolean,
-        default: true
+        default: false
     },
     name: {
         type: String,
