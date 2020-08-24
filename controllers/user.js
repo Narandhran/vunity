@@ -1,5 +1,5 @@
 const { register, login, requestOtp, updateDp, getProfileInfo, updateProfile,
-    list } = require('../services/user');
+    list, filterByStatus } = require('../services/user');
 const { successHandler, errorHandler } = require('../utils/handler');
 
 module.exports = {
@@ -45,7 +45,13 @@ module.exports = {
     list: (req, res) => {
         list(req, (err, result) => {
             if (err) errorHandler(req, res, err);
-            else successHandler(req, res, 'Updated', result);
+            else successHandler(req, res, 'Success', result);
         });
-    }
+    },
+    filterByStatus: (req, res) => {
+        filterByStatus(req, (err, result) => {
+            if (err) errorHandler(req, res, err);
+            else successHandler(req, res, 'Success', result);
+        });
+    },
 };

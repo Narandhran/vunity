@@ -93,7 +93,14 @@ module.exports = {
     },
     list: async (request, cb) => {
         await User
-            .find({}, '_id fname lname dp email gender mobile')
+            .find({ _id: { '$ne': request.verifiedToken._id } }, '_id fname lname dp email gender mobile status')
+            .exec((err, result) => {
+                cb(err, result);
+            });
+    },
+    filterByStatus: async (request, cb) => {
+        await User
+            .find({ 'status': request.params.status }, '_id fname lname dp email gender mobile status')
             .exec((err, result) => {
                 cb(err, result);
             });

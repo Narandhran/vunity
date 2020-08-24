@@ -72,6 +72,7 @@ module.exports = {
     customSearch: async (request, cb) => {
         await Vunity
             .find({
+                'user_id': { '$ne': request.verifiedToken._id },
                 '$or': [
                     {
                         'name': {
