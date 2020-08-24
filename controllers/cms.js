@@ -5,7 +5,7 @@ module.exports = {
     userReview: (req, res) => {
         userReview(req, (err, result) => {
             if (err) errorHandler(req, res, err);
-            else successHandler(req, res, 'Success', result);
+            else successHandler(req, res, 'Success', {});
         });
     },
     userList: (req, res) => {

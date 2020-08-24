@@ -6,19 +6,23 @@ module.exports = {
         let { id, status = 'Pending' } = request.body;
         let isUser = await User.findById(id);
         if (status = 'Approved')
-            await sendFcmMessagePromise(loadFcmMessage(isUser.fcmToken, 'Your account has been activated successfully, you can start using our app now. Cheers!!'));
+            try {
+                await sendFcmMessagePromise(loadFcmMessage([isUser.fcmToken], 'Your account has been activated successfully, you can start using our app now. Cheers!!'));
+            } catch (error) {
+                console.log(error);
+            }
         await User.
             findByIdAndUpdate(id, { 'status': status })
             .exec((err, result) => {
                 cb(err, result);
             });
     },
-    userList: async(request,cb)=>{
+    userList: async (request, cb) => {
         await User
-        .find({'status': { '$in': ['Pending', 'Approved'] }}, '_id fname lname dp email gender mobile')
-        .sort({status: 1})
-        .exec((err, result) => {
-            cb(err, result);
-        });
+            .find({ 'status': { '$in': ['Pending', 'Approved'] } }, '_id fname lname dp email gender mobile')
+            .sort({ status: 1 })
+            .exec((err, result) => {
+                cb(err, result);
+            });
     }
 };
