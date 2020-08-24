@@ -5,17 +5,16 @@ module.exports = {
     userReview: async (request, cb) => {
         let { id, status = 'Pending' } = request.body;
         let isUser = await User.findById(id);
-        if (status = 'Approved')
+        isUser.status = status;
+        await isUser.save();
+        cb(null, 'Updated Successfully');
+        if (status = 'Approved') {
             try {
                 await sendFcmMessagePromise(loadFcmMessage([isUser.fcmToken], 'Your account has been activated successfully, you can start using our app now. Cheers!!'));
             } catch (error) {
                 console.log(error);
             }
-        await User.
-            findByIdAndUpdate(id, { 'status': status })
-            .exec((err, result) => {
-                cb(err, result);
-            });
+        }
     },
     userList: async (request, cb) => {
         await User
