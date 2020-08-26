@@ -8,7 +8,7 @@ module.exports = {
         isUser.status = status;
         await isUser.save();
         cb(null, 'Updated Successfully');
-        if (status = 'Approved') {
+        if (status == 'Approved') {
                 await sendFcmMessagePromise(await loadFcmMessage([isUser.fcmToken], 'Your account has been activated successfully, you can start using our app now. Cheers!!'));
         }
     },
