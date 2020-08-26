@@ -24,17 +24,20 @@ module.exports = {
             to: target,
             // collapse_key: 'your_collapse_key',
             data: {
-                rr_data: rrData
+                title: title,
+                body: rrData
             },
             notification: {
                 title: title,
                 body: body,
-                sound: 'default'
+                sound: 'custom_sound',
+                android_channel_id: 'fcm_default_channel'
             }
         };
     },
 
     sendFcmMessagePromise: async (message) => {
+        console.log(JSON.stringify(message));
         return await FCM.send(message);
     },
 
