@@ -4,7 +4,9 @@ const { request } = require('express');
 
 module.exports = {
     create: async (request, cb) => {
-        Vunity.create(request.body, (err, result) => {
+        let persisted = request.body;
+        persisted.user_id = request.verifiedToken._id;
+        Vunity.create(persisted, (err, result) => {
             cb(err, result);
         });
     },

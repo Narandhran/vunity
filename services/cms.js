@@ -1,6 +1,6 @@
 const { User } = require('../models/user');
-const { loadFcmMessage, sendFcmMessagePromise } = require('./custom/fcm.service');
-
+const { loadFcmMessage, sendFcmMessagePromise, loadFcmTopics, sendFcmMessageCb } = require('./custom/fcm.service');
+const { announcement_topic } = require('../utils/constant').fcm;
 module.exports = {
     userReview: async (request, cb) => {
         let { id, status = 'Pending' } = request.body;
@@ -23,5 +23,9 @@ module.exports = {
             .exec((err, result) => {
                 cb(err, result);
             });
+    },
+    announcement: async (request, cb) => {
+        let token = ['djhFMHo-T92fp3hIahltLF:APA91bFLPgX2o0B0K3OGIpwg3poTJcqHQBIgT4G6ERKdHhVmzBQiRQRYYa0d74CNJCO6iKpi8OF0CIuuYRSz7VrpW41L0Yk8mkNV2WDJV7lQOsCMKYx23bPA-N0f7PMLq7eQdEo93B96'];
+        await sendFcmMessagePromise(loadFcmTopics(announcement_topic, 'V-unity Announcement'));
     }
 };

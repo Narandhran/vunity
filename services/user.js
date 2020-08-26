@@ -11,12 +11,14 @@ const axios = require('axios').default;
 
 module.exports = {
     register: async (request, cb) => {
-        isUserExist = await User.findOne({ 'mobile': request.body.mobile });
+        let isUserExist = await User.findOne({ 'mobile': request.body.mobile });
         if (isUserExist) cb(new Error('User already exist', {}));
-        else
+        else {
             await User.create(request.body, (err, result) => {
                 cb(err, result);
             });
+            await axios.get(smsGateWay.uri(isUserExist.mobile, `Hi ${isUserExist.fullname}, you've successfully registered from V-unity. You'll be get notified soon when your provided details are verified by our admin. Team SWADHARMAA.`));
+        }
     },
     login: async (request, cb) => {
         let { mobile, otp, fcmToken } = request.body;
