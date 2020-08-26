@@ -1,5 +1,6 @@
 const { verify } = require('../services/custom/jwt.service');
 const { errorHandler } = require('../utils/handler');
+const { User } = require('../models/user');
 module.exports = {
     tokenVerification: (req, res, next) => {
         if (!req.headers.authorization)
@@ -18,9 +19,13 @@ module.exports = {
         if (typeof roles === 'string')
             roles = [roles];
         return [
-            (req, res, next) => {
+            async (req, res, next) => {
                 let token = req.verifiedToken;
-                if (!roles.some(r => token.role.indexOf(r) >= 0))
+                let isUserBlocked = await User.findById(token._id).lean();
+                if(isUserBlocked.status == 'Blocked'){
+                    errorHandler(req, res, new Error('Your account is blocked, contact admin!.'));
+                }
+                else if (!roles.some(r => token.role.indexOf(r) >= 0))
                     errorHandler(req, res, new Error('Unauthorized, Access denied.'));
                 else
                     next();
