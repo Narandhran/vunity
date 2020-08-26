@@ -7,7 +7,7 @@ module.exports = app => {
      * Admin only
      */
     app.get('/user/list', AdminOnly, userCtl.list);
-    app.get('/user/filter_status/:status', userCtl.filterByStatus);
+    app.get('/user/filter_status/:status', AdminOnly, userCtl.filterByStatus);
     /**
      * All users
      */

@@ -7,5 +7,5 @@ module.exports = app => {
      */
     app.put('/cms/review', AdminOnly, cmsCtl.userReview);
     app.get('/cms/user_list', AdminOnly, cmsCtl.userList);
-    app.post('/cms/announcement', cmsCtl.announcement);
+    app.post('/cms/announcement', AdminOnly, cmsCtl.announcement);
 };
