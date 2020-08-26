@@ -25,7 +25,8 @@ module.exports = {
             });
     },
     announcement: async (request, cb) => {
-        let token = ['djhFMHo-T92fp3hIahltLF:APA91bFLPgX2o0B0K3OGIpwg3poTJcqHQBIgT4G6ERKdHhVmzBQiRQRYYa0d74CNJCO6iKpi8OF0CIuuYRSz7VrpW41L0Yk8mkNV2WDJV7lQOsCMKYx23bPA-N0f7PMLq7eQdEo93B96'];
-        await sendFcmMessagePromise(loadFcmTopics(announcement_topic, 'V-unity Announcement'));
+        let { title, message } = request.body;
+        cb(null, 'Success');
+        await sendFcmMessagePromise(await loadFcmTopics(announcement_topic, title, message, message));
     }
 };

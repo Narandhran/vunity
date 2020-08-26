@@ -19,7 +19,7 @@ module.exports = {
         };
     },
 
-    loadFcmTopics: (target, title, body, rrData) => {
+    loadFcmTopics: async (target, title, body, rrData) => {
         return {
             to: target,
             // collapse_key: 'your_collapse_key',
