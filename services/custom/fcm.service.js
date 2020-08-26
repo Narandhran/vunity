@@ -37,7 +37,7 @@ module.exports = {
     },
 
     sendFcmMessagePromise: async (message) => {
-        console.log(JSON.stringify(message));
+        // console.log(JSON.stringify(message));
         return await FCM.send(message);
     },
 

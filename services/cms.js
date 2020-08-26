@@ -9,11 +9,7 @@ module.exports = {
         await isUser.save();
         cb(null, 'Updated Successfully');
         if (status = 'Approved') {
-            try {
-                await sendFcmMessagePromise(loadFcmMessage([isUser.fcmToken], 'Your account has been activated successfully, you can start using our app now. Cheers!!'));
-            } catch (error) {
-                console.log(error);
-            }
+                await sendFcmMessagePromise(await loadFcmMessage([isUser.fcmToken], 'Your account has been activated successfully, you can start using our app now. Cheers!!'));
         }
     },
     userList: async (request, cb) => {
