@@ -18,7 +18,7 @@ module.exports = {
     requestOtp: (req, res) => {
         requestOtp(req, (err, result) => {
             if (err) errorHandler(req, res, err);
-            else successHandler(req, res, 'Otp sent successfully', result);
+            else successHandler(req, res, result, result);
         });
     },
     updateDp: (req, res) => {
