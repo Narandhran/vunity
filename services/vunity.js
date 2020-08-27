@@ -7,19 +7,19 @@ module.exports = {
     create: async (request, cb) => {
         let persisted = request.body;
         persisted.user_id = request.verifiedToken._id;
-        Vunity.create(persisted, (err, result) => {
+        await Vunity.create(persisted, (err, result) => {
             cb(err, result);
         });
     },
     update: async (request, cb) => {
-        Vunity
+        await Vunity
             .findByIdAndUpdate(request.params.id, request.body, { new: true })
             .exec((err, result) => {
                 cb(err, result);
             });
     },
     findByUserId: async (request, cb) => {
-        Vunity
+        await Vunity
             .findOne({ user_id: request.params.id })
             .populate('user_id')
             .exec((err, result) => {
