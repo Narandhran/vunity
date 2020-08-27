@@ -96,7 +96,7 @@ module.exports = {
     },
     mobileVisibilityUpdate: async (request, cb) => {
         await Vunity
-            .findOneAndUpdate({ 'user_id': request.verifiedToken._id }, request.body)
+            .findByIdAndUpdate(request.params.id, request.body)
             .exec((err, result) => {
                 cb(err, result);
             });
