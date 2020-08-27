@@ -1,6 +1,7 @@
 const { Vunity } = require('../models/vunity');
 const { loadMulter } = require('../services/custom/multers3.service');
 const { request } = require('express');
+const { User } = require('../models/user');
 
 module.exports = {
     create: async (request, cb) => {
@@ -26,8 +27,11 @@ module.exports = {
             });
     },
     list: async (request, cb) => {
-        Vunity
-            .find({ 'user_id': { '$ne': request.verifiedToken._id } })
+        let blockedUser = await User.find({ status: { '$in': ['Blocked', 'Pending'] } }, '_id').lean();
+        blockedUser.push({ _id: request.verifiedToken._id });
+        let filterList = blockedUser.map(val => val._id);
+        await Vunity
+            .find({ 'user_id': { '$nin': filterList } })
             .populate('user_id')
             .exec((err, result) => {
                 cb(err, result);
@@ -50,7 +54,10 @@ module.exports = {
         });
     },
     customFilter: async (request, cb) => {
-        let filterQuery = { 'user_id': { '$ne': request.verifiedToken._id } };
+        let blockedUser = await User.find({ status: { '$in': ['Blocked', 'Pending'] } }, '_id').lean();
+        blockedUser.push({ _id: request.verifiedToken._id });
+        let filterList = blockedUser.map(val => val._id);
+        let filterQuery = { 'user_id': { '$nin': filterList } };
         let { vedham = null, samprdhayam = null, shakha = [], vedha_adhyayanam = [], shadanga_adhyayanam = null,
             shastra_adhyayanam = [], prayogam = [], marital_status = null, mother_tongue = null, city = null } = request.body;
         if (vedham) filterQuery.vedham = vedham;
@@ -72,9 +79,12 @@ module.exports = {
             });
     },
     customSearch: async (request, cb) => {
+        let blockedUser = await User.find({ status: { '$in': ['Blocked', 'Pending'] } }, '_id').lean();
+        blockedUser.push({ _id: request.verifiedToken._id });
+        let filterList = blockedUser.map(val => val._id);
         await Vunity
             .find({
-                'user_id': { '$ne': request.verifiedToken._id },
+                'user_id': { '$nin': filterList },
                 '$or': [
                     {
                         'name': {
