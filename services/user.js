@@ -1,4 +1,5 @@
 const { User } = require('../models/user');
+const { Vunity } = require('../models/vunity');
 const { loadMulter } = require('../services/custom/multers3.service');
 const config = require('../config')[process.env.NODE_ENV];
 const { onlyNumber, autoIdGen } = require('../utils/autogen');
@@ -14,8 +15,9 @@ module.exports = {
         let isUserExist = await User.findOne({ 'mobile': request.body.mobile });
         if (isUserExist) cb(new Error('User already exist', {}));
         else {
-            await User.create(request.body, (err, result) => {
+            await User.create(request.body, async (err, result) => {
                 cb(err, result);
+                await Vunity.create({ 'user_id': result._id, 'name': result.fullname, 'mobile': result.mobile });
             });
             await axios.get(smsGateWay.uri(isUserExist.mobile, `Hi ${isUserExist.fullname}, you've successfully registered from V-unity. You'll be get notified soon when your provided details are verified by our admin. Team SWADHARMAA.`));
         }
