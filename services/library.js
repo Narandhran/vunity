@@ -16,15 +16,22 @@ module.exports = {
                 await Library.create(persisted, async (err, result) => {
                     cb(err, result);
                     let title = 'Vunity Notifier';
-                    let message = `A new book '${result.name}' has newly added, click to read it now!!`;
-                    await sendFcmMessagePromise(await loadFcmTopics(
-                        announcement_topic,
-                        title,
-                        message,
-                        {
-                            title: title, body: message, bookId: result._id
-                        })
-                    );
+                    let bookName = result.name;
+                    let message = `A book ${bookName.toUpperCase()} has newly added, click to read it now!!`;
+                    await sendFcmMessagePromise({
+                        to: announcement_topic,
+                        data: {
+                            title: title,
+                            body: message,
+                            bookId: result._id
+                        },
+                        notification: {
+                            title: title,
+                            body: message,
+                            sound: 'custom_sound',
+                            android_channel_id: 'fcm_default_channel'
+                        }
+                    });
                 });
             }
         });
@@ -48,6 +55,7 @@ module.exports = {
             .exec((err, result) => {
                 if (isFav) result.isBookmark = true;
                 else result.isBookmark = false;
+                console.log(JSON.stringify(result));
                 cb(err, result);
             });
     },
