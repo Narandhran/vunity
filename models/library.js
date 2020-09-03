@@ -39,6 +39,10 @@ var librarySchema = new Schema({
     keywords: {
         type: [String],
         required: false
+    },
+    makeAnnouncement: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 

@@ -1,7 +1,8 @@
 const { Library } = require('../models/library');
 const { Favourite } = require('../models/favourite');
 const { loadMulter } = require('../services/custom/multers3.service');
-
+const { sendFcmMessagePromise, loadFcmTopics } = require('./custom/fcm.service');
+const { announcement_topic } = require('../utils/constant').fcm;
 module.exports = {
     create: async (request, cb) => {
         let upload = loadMulter(20, 'book').any();
@@ -12,8 +13,18 @@ module.exports = {
                 let persisted = JSON.parse(request.body.textField);
                 persisted.thumbnail = request.files[0].key;
                 persisted.content = request.files[1].key;
-                await Library.create(persisted, (err, result) => {
+                await Library.create(persisted, async (err, result) => {
                     cb(err, result);
+                    let title = 'Vunity Notifier';
+                    let message = `A new book '${result.name}' has newly added, click to read it now!!`;
+                    await sendFcmMessagePromise(await loadFcmTopics(
+                        announcement_topic,
+                        title,
+                        message,
+                        {
+                            title: title, body: message, bookId: result._id
+                        })
+                    );
                 });
             }
         });
@@ -37,7 +48,6 @@ module.exports = {
             .exec((err, result) => {
                 if (isFav) result.isBookmark = true;
                 else result.isBookmark = false;
-                console.log(JSON.stringify(result));
                 cb(err, result);
             });
     },
