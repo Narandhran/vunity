@@ -15,23 +15,25 @@ module.exports = {
                 persisted.content = request.files[1].key;
                 await Library.create(persisted, async (err, result) => {
                     cb(err, result);
-                    let title = 'Vunity Notifier';
-                    let bookName = result.name;
-                    let message = `A book ${bookName.toUpperCase()} has newly added, click to read it now!!`;
-                    await sendFcmMessagePromise({
-                        to: announcement_topic,
-                        data: {
-                            title: title,
-                            body: message,
-                            bookId: result._id
-                        },
-                        notification: {
-                            title: title,
-                            body: message,
-                            sound: 'custom_sound',
-                            android_channel_id: 'fcm_default_channel'
-                        }
-                    });
+                    if (result.makeAnnouncement) {
+                        let title = 'Vunity Notifier';
+                        let bookName = result.name;
+                        let message = `A book ${bookName.toUpperCase()} has newly added, click to read it now!!`;
+                        await sendFcmMessagePromise({
+                            to: announcement_topic,
+                            data: {
+                                title: title,
+                                body: message,
+                                bookId: result._id
+                            },
+                            notification: {
+                                title: title,
+                                body: message,
+                                sound: 'custom_sound',
+                                android_channel_id: 'fcm_default_channel'
+                            }
+                        });
+                    }
                 });
             }
         });
