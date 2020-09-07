@@ -18,7 +18,7 @@ module.exports = {
                     if (result.makeAnnouncement) {
                         let title = 'Vunity Notifier';
                         let bookName = result.name;
-                        let message = `A book ${bookName.toUpperCase()} has newly added, click to read it now!!`;
+                        let message = `${bookName.toUpperCase()}  \n ${result.description} \n CLICK TO VIEW MORE`;
                         await sendFcmMessagePromise({
                             to: announcement_topic,
                             data: {
