@@ -85,7 +85,7 @@ module.exports = {
         });
     },
     updateBook: async (request, cb) => {
-        let upload = loadMulter(5, 'book').single('content');
+        let upload = loadMulter(250, 'book').single('content');
         await upload(request, null, (err) => {
             if (err)
                 cb(err, {});
