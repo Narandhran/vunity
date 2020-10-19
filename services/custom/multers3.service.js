@@ -30,7 +30,7 @@ var loadMulter = (fileSize, filePath) => {
                     cb(null, true);
                 } else cb('Unsupported file type', false);
             } else if (file.fieldname == 'category' || file.fieldname == 'dp'
-                || file.fieldname == 'pdf-thumb' || file.fieldname == 'banner') {
+                || file.fieldname == 'pdf-thumb' || file.fieldname == 'banner' || file.fieldname == 'video-thumb') {
                 let fext = path.extname(file.originalname);
                 if (fext == '.jpg' || fext == '.jpeg' || fext == '.png') {
                     cb(null, true);
