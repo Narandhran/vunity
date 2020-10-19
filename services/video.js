@@ -54,8 +54,10 @@ module.exports = {
             .populate('categoryId')
             .lean()
             .exec((err, result) => {
-                if (isFav) result.isBookmark = true;
-                else result.isBookmark = false;
+                if (result) {
+                    if (isFav) result.isBookmark = true;
+                    else result.isBookmark = false;
+                }
                 cb(err, result);
             });
     },
