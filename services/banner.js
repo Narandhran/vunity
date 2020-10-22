@@ -8,7 +8,7 @@ module.exports = {
             if (err)
                 cb(err, {});
             else {
-                Banner.create({'banner' : request.file.key}, (err, result) => {
+                Banner.create({ 'banner': request.file.key }, (err, result) => {
                     cb(err, result);
                 });
             }
@@ -26,10 +26,10 @@ module.exports = {
             if (err)
                 cb(err, {});
             else {
+                let persisted = JSON.parse(request.body.textField);
+                persisted.banner = request.file.key;
                 Banner
-                    .findByIdAndUpdate(request.params.id, {
-                        banner: request.file.key
-                    }, { new: true })
+                    .findByIdAndUpdate(request.params.id, persisted, { new: true })
                     .exec((err, result) => {
                         cb(err, result);
                     });

@@ -5,6 +5,13 @@ var bannerSchema = new Schema({
         type: String,
         maxlength: 32,
         required: true
+    },
+    video: {
+        type: String,
+        default: null
+    },
+    index: {
+        type: Number
     }
 }, { timestamps: true });
 
