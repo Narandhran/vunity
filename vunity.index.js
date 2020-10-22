@@ -5,10 +5,12 @@ const config = require('./config')[process.env.NODE_ENV];
 const { json, urlencoded } = require('body-parser');
 const { connectivity } = require('./db');
 const app = express();
+const { logger } = require('./middlewares/log');
 var normalizedPath = require('path').join(__dirname, 'routes');
 
 app
     .use(cors())
+    .use(logger)
     .use(morgan('dev'))
     .use(json({ limit: '3mb', extended: true }))
     .use(urlencoded({ limit: '3mb', extended: true }))
