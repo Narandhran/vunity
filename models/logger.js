@@ -8,7 +8,8 @@ var loggerSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'user'
-    }
+    },
+    deviceId: String
 }, { timestamps: true });
 
 var Logger = model('logger', loggerSchema);

@@ -23,19 +23,21 @@ module.exports = {
         }
     },
     login: async (request, cb) => {
-        let { mobile, otp, fcmToken } = request.body;
+        let { mobile, otp, fcmToken,deviceId } = request.body;
         let isUser = await User.findOne({ 'mobile': mobile });
         if (isUser) {
             if (isUser.verify.expire < moment(isUser.verify.expire).add(15, 'm').toDate()) {
                 if (isUser.verify.otp == otp) {
                     let token = {};
                     isUser.fcmToken = fcmToken;
+                    isUser.deviceId = deviceId;
                     try {
                         token = sign({
                             _id: isUser._id,
                             email: isUser.email,
                             role: isUser.role,
-                            fullname: isUser.fullname
+                            fullname: isUser.fullname,
+                            deviceId: deviceId
                         });
                         cb(null, { role: isUser.role, token, rpath: s3.basePath });
                         await isUser.save();

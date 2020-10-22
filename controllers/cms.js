@@ -1,4 +1,4 @@
-const { userReview, userList, announcement} = require('../services/cms');
+const { userReview, userList, announcement, activeUserReport } = require('../services/cms');
 const { successHandler, errorHandler } = require('../utils/handler');
 
 module.exports = {
@@ -16,6 +16,12 @@ module.exports = {
     },
     announcement: (req, res) => {
         announcement(req, (err, result) => {
+            if (err) errorHandler(req, res, err);
+            else successHandler(req, res, 'Success', result);
+        });
+    },
+    activeUserReport: (req, res) => {
+        activeUserReport(req, (err, result) => {
             if (err) errorHandler(req, res, err);
             else successHandler(req, res, 'Success', result);
         });
