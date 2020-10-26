@@ -24,6 +24,10 @@ var favouriteSchema = new Schema({
         type: String,
         required: false,
         maxlength: 36
+    },
+    isVideo: {
+        type: Boolean,
+        required: true
     }
 }, { timestamps: true });
 var Favourite = model('favourite', favouriteSchema);
