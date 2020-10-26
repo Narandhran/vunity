@@ -9,9 +9,16 @@ var favouriteSchema = new Schema({
     libraryId: {
         type: Schema.Types.ObjectId,
         ref: 'library',
-        required: true
+        required: true,
+        default: null
     },
-    isBookmark : {
+    videoId: {
+        type: Schema.Types.ObjectId,
+        ref: 'video',
+        required: true,
+        default: null
+    },
+    isBookmark: {
         type: Boolean,
         default: true
     },

@@ -2,13 +2,21 @@ const { Favourite } = require('../models/favourite');
 
 module.exports = {
     addToFavourite: async (request, cb) => {
-       await Favourite.create({ 'userId': request.verifiedToken._id, 'libraryId': request.params.id }
+        let { videoId = null, libraryId = null } = request.body;
+        if (request.body.isVideo) {
+            libraryId = null;
+            videoId = request.body.libraryId;
+        }
+        await Favourite.create({ 'userId': request.verifiedToken._id, videoId, libraryId }
             , (err, result) => {
                 cb(err, result);
             });
     },
     removeFromFavourite: async (request, cb) => {
-       await Favourite.findOneAndRemove({'userId': request.verifiedToken._id,'libraryId':request.params.id})
+        let query = { 'userId': request.verifiedToken._id };
+        if (request.body.isVideo) query['videoId'] = request.params.id;
+        else query['libraryId'] = request.params.id;
+        await Favourite.findOneAndRemove(query)
             .exec((err, result) => {
                 cb(err, result);
             });
@@ -17,6 +25,7 @@ module.exports = {
         await Favourite
             .find({ 'userId': request.verifiedToken._id })
             .populate('libraryId')
+            .populate('videoId')
             .exec((err, result) => {
                 cb(err, result);
             });
