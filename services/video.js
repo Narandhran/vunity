@@ -45,10 +45,13 @@ module.exports = {
             });
     },
     getById: async (request, cb) => {
-        let { userId, libraryId } = request.body;
+        let { userId, libraryId, isVideo } = request.body;
+        let query = { 'userId': userId };
+        if (isVideo) query.videoId = libraryId;
+        else query.libraryId = libraryId;
         let isFav = false;
         if (userId)
-            isFav = await Favourite.findOne({ 'userId': userId, 'libraryId': libraryId });
+            isFav = await Favourite.findOne(query);
         await Video
             .findById(libraryId)
             .populate('categoryId')
