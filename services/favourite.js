@@ -18,10 +18,9 @@ module.exports = {
     removeFromFavourite: async (request, cb) => {
         let query = { 'userId': request.verifiedToken._id };
         if (request.body.isVideo)
-            query['videoId'] = request.body.id;
+            query['videoId'] = request.body.libraryId;
         else
-            query['libraryId'] = request.body.id;
-            console.log(query);
+            query['libraryId'] = request.body.libraryId;
         await Favourite.findOneAndRemove(query)
             .exec((err, result) => {
                 cb(err, result);
