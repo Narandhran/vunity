@@ -7,7 +7,7 @@ module.exports = {
             libraryId = null;
             videoId = request.body.libraryId;
         }
-        await Favourite.create({ 'userId': request.verifiedToken._id, videoId, libraryId }
+        await Favourite.create({ 'userId': request.verifiedToken._id, 'videoId': videoId, 'libraryId': libraryId }
             , (err, result) => {
                 cb(err, result);
             });

@@ -6,7 +6,7 @@ module.exports = app => {
     /**
      * Registered Users
      */
-    app.post('/fav/add/:id', AllUsers, favCtl.addToFavourite);
-    app.delete('/fav/remove/:id', AllUsers, favCtl.removeFromFavourite);
+    app.post('/fav/add', AllUsers, favCtl.addToFavourite);
+    app.delete('/fav/remove', AllUsers, favCtl.removeFromFavourite);
     app.get('/fav/list', AllUsers, favCtl.listByUser);
 };
