@@ -44,6 +44,9 @@ var userSchema = new Schema({
     vaidhika: {
         type: Boolean,
         required: true
+    },
+    deviceId: {
+        type: String
     }
 }, { timestamps: true });
 

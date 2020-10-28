@@ -32,61 +32,71 @@ module.exports = {
         await sendFcmMessagePromise(await loadFcmTopics(announcement_topic, title, message, message));
     },
     activeUserReport: async (request, cb) => {
-        await Logger.aggregate([
-            {
-                '$project': {
-                    'date': {
-                        '$dateToString': {
-                            'date': '$createdAt',
-                            'timezone': 'Asia/Kolkata',
-                            'format': '%d-%m-%Y'
+        let getQuery = (sDate, tDate) => {
+            return [
+                {
+                    '$project': {
+                        'date': {
+                            '$dateToString': {
+                                'date': '$createdAt',
+                                'timezone': 'Asia/Kolkata',
+                                'format': '%d-%m-%Y'
+                            }
+                        },
+                        'url': 1,
+                        'host': 1,
+                        'user': 1,
+                        'createdAt': 1,
+                        'method': 1,
+                        'ip': 1,
+                        'deviceId': 1
+                    }
+                }, {
+                    '$match': {
+                        'url': '/library/homepage',
+                        'createdAt': {
+                            '$gt': sDate,
+                            '$lt': tDate
                         }
-                    },
-                    'url': 1,
-                    'host': 1,
-                    'user': 1,
-                    'createdAt': 1,
-                    'method': 1,
-                    'ip': 1,
-                    'deviceId': 1
-                }
-            }, {
-                '$sort': {
-                    'createdAt': 1
-                }
-            }, {
-                '$match': {
-                    'url': '/library/homepage',
-                    'createdAt': {
-                        '$gt': new Date(moment().subtract(7, 'days').format('YYYY-MM-DD'))
+                    }
+                }, {
+                    '$group': {
+                        '_id': {
+                            'deviceId': '$deviceId',
+                            'date': '$date'
+                        },
+                        'count': {
+                            '$sum': 1
+                        }
+                    }
+                }, {
+                    '$group': {
+                        '_id': '$_id.date',
+                        'activeUsers': {
+                            '$sum': 1
+                        }
+                    }
+                }, {
+                    '$project': {
+                        '_id': 0,
+                        'date': '$_id',
+                        'activeUsers': 1
+                    }
+                }, {
+                    '$sort': {
+                        'date': 1
                     }
                 }
-            }, {
-                '$group': {
-                    '_id': {
-                        'deviceId': '$deviceId',
-                        'date': '$date'
-                    },
-                    'count': {
-                        '$sum': 1
-                    }
-                }
-            }, {
-                '$group': {
-                    '_id': '$_id.date',
-                    'activeUsers': {
-                        '$sum': 1
-                    }
-                }
-            }, {
-                '$project': {
-                    '_id': 0,
-                    'date': '$_id',
-                    'activeUsers': 1
-                }
-            }
-        ]).exec((err, result) => {
-            cb(err, result);
-        });
+            ];
+        };
+        Promise.all([
+            (await User.find()).length,
+            Logger.aggregate(getQuery(new Date(moment().format('YYYY-MM-DD')), new Date(moment().add(1, 'days').format('YYYY-MM-DD')))),
+            Logger.aggregate(getQuery(new Date(moment().subtract(7, 'days').format('YYYY-MM-DD')), new Date(moment().subtract(1, 'days').format('YYYY-MM-DD'))))
+        ]).then(result => {
+            let [totalUser, live, report] = [...result];
+            cb(null, { totalUser, activeUser: live[0].activeUsers, report });
+        }).catch(err => { cb(err, {}); });
+
     }
 };

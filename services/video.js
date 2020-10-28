@@ -53,7 +53,7 @@ module.exports = {
         if (userId)
             isFav = await Favourite.findOne(query);
         await Video
-            .findById(libraryId)
+            .findById('libraryId')
             .populate('categoryId')
             .lean()
             .exec((err, result) => {
