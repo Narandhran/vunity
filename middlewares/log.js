@@ -1,4 +1,5 @@
 const { Logger } = require('../models/logger');
+const { verify } = require('../services/custom/jwt.service');
 module.exports = {
     logger: async (req, res, next) => {
         await Logger.create({
@@ -6,9 +7,10 @@ module.exports = {
             method: req.method,
             url: req.originalUrl,
             host: req.hostname,
-            user: req.verifiedToken ? req.verifiedToken._id : null,
+            user: req.headers.authorization ? verify(req.headers.authorization)._id : null,
             deviceId: req.verifiedToken ? req.verifiedToken.deviceId : null
         }, (err, result) => {
+            console.log(result);
             if (err)
                 console.log('logger error');
         });

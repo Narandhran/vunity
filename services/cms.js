@@ -49,7 +49,6 @@ module.exports = {
                         'createdAt': 1,
                         'method': 1,
                         'ip': 1,
-                        'deviceId': 1
                     }
                 }, {
                     '$match': {
@@ -62,7 +61,7 @@ module.exports = {
                 }, {
                     '$group': {
                         '_id': {
-                            'deviceId': '$deviceId',
+                            'user': '$user',
                             'date': '$date'
                         },
                         'count': {
