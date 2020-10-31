@@ -11,6 +11,6 @@ module.exports = app => {
     /**
      * All users
      */
-    app.get('/category/list', AllUsers, categoryCtl.list);
+    app.get('/category/list/:id',  categoryCtl.list);
     app.post('/thumb', AllUsers, categoryCtl.updateThumb);
 };

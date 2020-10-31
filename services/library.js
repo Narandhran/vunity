@@ -86,16 +86,35 @@ module.exports = {
     },
     updateBook: async (request, cb) => {
         let upload = loadMulter(250, 'book').single('content');
-        await upload(request, null, (err) => {
+        await upload(request, null, async (err) => {
             if (err)
                 cb(err, {});
             else {
-                Library
-                    .findByIdAndUpdate(request.params.id, {
+                await Library
+                    .findByIdAndUpdate(request.query.libraryId, {
                         content: request.file.key
                     }, { new: true })
-                    .exec((err, result) => {
+                    .exec(async (err, result) => {
                         cb(err, result);
+                        if (request.query.makeAnnouncement) {
+                            let title = 'Vunity Notifier';
+                            let bookName = result.name;
+                            let message = `${bookName.toUpperCase()}  \n ${result.description} \n CLICK TO VIEW MORE`;
+                            await sendFcmMessagePromise({
+                                to: announcement_topic,
+                                data: {
+                                    title: title,
+                                    body: message,
+                                    bookId: result._id
+                                },
+                                notification: {
+                                    title: title,
+                                    body: message,
+                                    sound: 'custom_sound',
+                                    android_channel_id: 'fcm_default_channel'
+                                }
+                            });
+                        }
                     });
             }
         });
