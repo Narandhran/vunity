@@ -39,7 +39,7 @@ module.exports = {
                         'date': {
                             '$dateToString': {
                                 'date': '$createdAt',
-                                'timezone': 'Asia/Kolkata',
+                                // 'timezone': 'Asia/Kolkata',
                                 'format': '%d-%m-%Y'
                             }
                         },
@@ -49,6 +49,7 @@ module.exports = {
                         'createdAt': 1,
                         'method': 1,
                         'ip': 1,
+                        'deviceId': 1
                     }
                 }, {
                     '$match': {
@@ -91,7 +92,7 @@ module.exports = {
         Promise.all([
             (await User.find()).length,
             Logger.aggregate(getQuery(new Date(moment().format('YYYY-MM-DD')), new Date(moment().add(1, 'days').format('YYYY-MM-DD')))),
-            Logger.aggregate(getQuery(new Date(moment().subtract(7, 'days').format('YYYY-MM-DD')), new Date(moment().subtract(1, 'days').format('YYYY-MM-DD'))))
+            Logger.aggregate(getQuery(new Date(moment().subtract(7, 'days').format('YYYY-MM-DD')), new Date(moment().format('YYYY-MM-DD'))))
         ]).then(result => {
             let [totalUser, live, report] = [...result];
             cb(null, { totalUser, activeUser: live[0].activeUsers, report });
