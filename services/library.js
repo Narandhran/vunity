@@ -96,7 +96,7 @@ module.exports = {
                     }, { new: true })
                     .exec(async (err, result) => {
                         cb(err, result);
-                        if (request.query.makeAnnouncement) {
+                        if (request.query.makeAnnouncement == 'true') {
                             let title = 'Vunity Notifier';
                             let bookName = result.name;
                             let message = `${bookName.toUpperCase()}  \n ${result.description} \n CLICK TO VIEW MORE`;

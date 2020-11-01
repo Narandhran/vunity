@@ -29,12 +29,14 @@ module.exports = {
                             persisted.push(iterator);
                         }
                     }
-                } else {
+                } else if (request.params.id == 'video') {
                     for (const iterator of result) {
                         if ((await Video.find({ 'categoryId': iterator._id })).length > 0) {
                             persisted.push(iterator);
                         }
                     }
+                } else {
+                    persisted = result;
                 }
                 cb(err, persisted);
             });
