@@ -10,7 +10,7 @@ module.exports = app => {
     app.post('/library/create', AdminOnly, libraryCtl.create);
     app.put('/library/update/:id', AdminOnly, libraryCtl.updateById);
     app.put('/library/update_thumb/:id', AdminOnly, libraryCtl.updateThumbnail);
-    app.put('/library/update_book/:id', AdminOnly, libraryCtl.updateBook);
+    app.put('/library/update_book', AdminOnly, libraryCtl.updateBook);
 
     /**
      * All Users
