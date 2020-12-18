@@ -5,7 +5,7 @@ const { sendFcmMessagePromise, loadFcmTopics } = require('./custom/fcm.service')
 const { announcement_topic } = require('../utils/constant').fcm;
 module.exports = {
     create: async (request, cb) => {
-        let upload = loadMulter(250, 'book').any();
+        let upload = loadMulter(2048, 'book').any();
         await upload(request, null, async (err) => {
             if (err)
                 cb(err, {});
