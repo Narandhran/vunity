@@ -19,7 +19,7 @@ module.exports = {
                 cb(err, result);
                 await Vunity.create({ 'user_id': result._id, 'name': result.fullname, 'mobile': result.mobile });
             });
-            await axios.get(smsGateWay.uri(isUserExist.mobile, `Hi ${isUserExist.fullname}, you've successfully registered from V-unity. You'll be get notified soon when your provided details are verified by our admin. Team SWADHARMAA.`));
+            await axios.get(smsGateWay.uri(isUserExist.mobile, `Hi ${isUserExist.fullname}, you've successfully registered from V-unity. You'll be get notified soon when your provided details are verified by our admin. Team SWADHARMAA.`,smsGateWay.template_id.greeting));
         }
     },
     login: async (request, cb) => {
@@ -57,7 +57,7 @@ module.exports = {
                 isUser.verify.expire = new Date();
                 await isUser.save();
                 async function makeGetRequest() {
-                    let res = await axios.get(smsGateWay.uri(mobile, `Hi ${isUser.fullname}, your OTP is ${otp} will expire in another 15 mins. Kindly use this for login, don't share it with anyone. Have a great day, Team SWADHARMAA.`));
+                    let res = await axios.get(smsGateWay.uri(mobile, `Hi ${isUser.fullname}, your OTP is ${otp} will expire in another 15 mins. Kindly use this for login, don't share it with anyone. Have a great day, Team SWADHARMAA.`,smsGateWay.template_id.otp));
                     let data = res.data;
                 }
                 await makeGetRequest();

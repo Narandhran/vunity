@@ -15,7 +15,7 @@ module.exports = {
         cb(null, 'Updated Successfully');
         if (status == 'Approved') {
             await sendFcmMessagePromise(await loadFcmMessage([isUser.fcmToken], 'Your account has been activated successfully, you can start using our app now. Cheers!!'));
-            await axios.get(smsGateWay.uri(isUser.mobile, `Hi ${isUser.fullname}, Greetings from SWADHARMAA (V-Unity), we're letting you know that your account has been activated successfully. You can start using our app from now. Cheers, Team SWADHARMAA`));
+            await axios.get(smsGateWay.uri(isUser.mobile, `Hi ${isUser.fullname}, Greetings from SWADHARMAA (V-Unity), we're letting you know that your account has been activated successfully. You can start using our app from now. Cheers, Team SWADHARMAA`,smsGateWay.template_id.greeting));
         }
     },
     userList: async (request, cb) => {
