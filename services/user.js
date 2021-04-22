@@ -19,7 +19,7 @@ module.exports = {
                 cb(err, result);
                 await Vunity.create({ 'user_id': result._id, 'name': result.fullname, 'mobile': result.mobile });
             });
-            await axios.get(smsGateWay.uri(isUserExist.mobile, `Hi ${isUserExist.fullname}, you've successfully registered from V-unity. You'll be get notified soon when your provided details are verified by our admin. Team SWADHARMAA.`,smsGateWay.template_id.greeting));
+            await axios.get(smsGateWay.uri(isUserExist.mobile, `Hi ${isUserExist.fullname}, you've successfully registered from V-unity. You'll be get notified soon when your provided details are verified by our admin. Team SWADHARMAA.`,smsGateWay.template_id.approval));
         }
     },
     login: async (request, cb) => {
